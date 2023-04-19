@@ -78,12 +78,20 @@ public class Human : MonoBehaviour
         DroppedOn(currentPlace);
         ResetEventDelay();
         StartCoroutine(MoneyMakingRoutine());
+        if (MoneyManager.instance == null) return;
+
         MoneyManager.instance.IncreasePeople();
     }
 
     private void ResetEventDelay()
     {
-        float a = Mathf.Lerp(1, 3, TempManager.instance.temp / TempManager.instance.maxTemp);
+        if (MoneyManager.instance == null)
+        {
+            eventDelay = UnityEngine.Random.Range(eventsDelayMin, eventsDelayMax);
+            timerToEvent = 0;
+            return;
+        }
+        float a = Mathf.Lerp(1, 4.5f, TempManager.instance.temp / TempManager.instance.maxTemp);
         eventDelay = UnityEngine.Random.Range(eventsDelayMin / a, eventsDelayMax / a);
         timerToEvent = 0;
     }
@@ -141,6 +149,7 @@ public class Human : MonoBehaviour
 
     private void Update()
     {
+        if (MoneyManager.instance == null) return;
         if (!MoneyManager.instance.gameInProgress) return;
 
         if (currentMoveState == MoveState.Walking)
@@ -172,7 +181,7 @@ public class Human : MonoBehaviour
             {
                 return;
             }
-            hp = Mathf.Clamp(hp - hpfallspeed / 3 * Time.deltaTime, 0, maxHp);
+            hp = Mathf.Clamp(hp - hpfallspeed / 4.5f * Time.deltaTime, 0, maxHp);
             UpdateHP();
         }
         else if (currentHumanState == HumanState.OnFire || currentHumanState == HumanState.Fainted)

@@ -19,6 +19,7 @@ public class TempManager : MonoBehaviour
     [SerializeField] Volume volume;
 
     [SerializeField] Transform sunTransform;
+    [SerializeField] AudioSource musicSource;
 
     private Bloom bloom;
 
@@ -44,5 +45,6 @@ public class TempManager : MonoBehaviour
         Camera.main.backgroundColor = Color.Lerp(camColor1, camColor2, a);
         bloom.intensity.Override(Mathf.Lerp(0.35f, 2f, a));
         sunTransform.localScale = Vector3.Lerp(Vector3.one * 0.44f, Vector3.one * 1.2f, a);
+        musicSource.pitch = Mathf.Lerp(1, 1f, a);
     }
 }

@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.11698109, b: 0.11698109, a: 1}
+  m_Color: {r: 0.1254704, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1151,7 +1151,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.86, y: 1.5, z: 0.2}
+  m_Size: {x: 0.95, y: 1.68, z: 0.2}
   m_Center: {x: 0, y: -0.1, z: 0}
 --- !u!1 &5353062310276466241
 GameObject:
@@ -1248,7 +1248,7 @@ BoxCollider:
   m_GameObject: {fileID: 5353062310276466241}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.7, y: 1.5, z: 0.2}
   m_Center: {x: 0, y: -0.1, z: 0}
@@ -1310,7 +1310,7 @@ MonoBehaviour:
   eventsDelayMin: 5
   eventsDelayMax: 20
   hpfallspeed: 10
-  hpbarhidedelay: 1
+  hpbarhidedelay: 0
   hpregspeed: 10
   animator: {fileID: 681773178}
   OnePlusEffectPrefab: {fileID: 4334727926214116497, guid: 7eb8ac649fbb4434e807ab0fecd0cca1,

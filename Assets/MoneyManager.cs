@@ -89,6 +89,7 @@ public class MoneyManager : MonoBehaviour
         people--;
         deaths++;
         deathsText.text = $"{deaths}/10";
+        deathsText.transform.localScale = Vector3.one;
         deathsText.transform.parent.DOPunchScale(Vector3.one * 1.03f, 0.42f);
 
         if (deaths >= 10)

@@ -35,12 +35,12 @@ public class FunctionalSpace : MonoBehaviour
                 humanPos.y = transform.position.y;
                 break;
             case (RoomType.SwimPool):
-                humanPos.y = transform.position.y;
-                humanPos.x = transform.position.x - 1f + transform.childCount * 0.7f;
+                humanPos.y = -1.74f;
+                humanPos.x = transform.position.x - 2f + transform.childCount * 0.66f;
                 break;
             case (RoomType.Nursery):
-                humanPos.y = transform.position.y;
-                humanPos.x = transform.position.x - 1f + transform.childCount * 0.7f;
+                humanPos.y = -0.12f;
+                humanPos.x = transform.position.x - 0.61f + transform.childCount * 1f;
                 break;
             case (RoomType.WaitingRoom):
                 humanPos.y = transform.position.y;
@@ -58,7 +58,27 @@ public class FunctionalSpace : MonoBehaviour
 
     public void UpdateText()
     {
-        if (roomType == RoomType.Nursery || roomType == RoomType.WaitingRoom || roomType == RoomType.SwimPool)
+        if (roomType == RoomType.SwimPool)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Vector3 newPos = transform.GetChild(i).position;
+                newPos.y = -1.74f;
+                newPos.x = transform.position.x - 2f + i * 0.66f;
+                transform.GetChild(i).position = newPos;
+            }
+        }
+        if (roomType == RoomType.Nursery)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Vector3 newPos = transform.GetChild(i).position;
+                newPos.y = -0.12f;
+                newPos.x = transform.position.x - 0.61f + i * 1f;
+                transform.GetChild(i).position = newPos;
+            }
+        }
+        if (roomType == RoomType.WaitingRoom)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -66,7 +86,6 @@ public class FunctionalSpace : MonoBehaviour
                 newPos.x = transform.position.x - 1f + i * 0.7f;
                 transform.GetChild(i).position = newPos;
             }
-
         }
 
         if (textCapacity == null) return;
