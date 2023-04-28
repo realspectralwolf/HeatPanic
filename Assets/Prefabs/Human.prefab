@@ -1151,8 +1151,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.95, y: 1.68, z: 0.2}
-  m_Center: {x: 0, y: -0.1, z: 0}
+  m_Size: {x: 1.19, y: 1.68, z: 0.2}
+  m_Center: {x: 0, y: -0.04, z: 0}
 --- !u!1 &5353062310276466241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,7 +1315,7 @@ MonoBehaviour:
   animator: {fileID: 681773178}
   OnePlusEffectPrefab: {fileID: 4334727926214116497, guid: 7eb8ac649fbb4434e807ab0fecd0cca1,
     type: 3}
-  moneyFrequency: 2
+  moneyFrequency: 6
   spriteNormal: {fileID: 5353062310276466241}
   spriteOnFire: {fileID: 5353062309995180633}
   spriteFainted: {fileID: 5353062310619215301}
@@ -1376,7 +1376,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &681773178
 Animator:
-  serializedVersion: 5
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1393,8 +1393,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5353062310619215301
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1497,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.02, y: 1.69, z: 0.2}
+  m_Size: {x: 1.14, y: 1.75, z: 0.2}
   m_Center: {x: 0.09, y: -0.1, z: 0.99}
 --- !u!1 &5359814333474723133
 GameObject:

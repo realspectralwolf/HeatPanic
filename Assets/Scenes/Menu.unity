@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 60473484}
   - component: {fileID: 60473483}
   - component: {fileID: 60473482}
+  - component: {fileID: 60473486}
   m_Layer: 5
   m_Name: Canvas Menu
   m_TagString: Untagged
@@ -217,7 +218,7 @@ RectTransform:
   m_Children:
   - {fileID: 535973478}
   - {fileID: 1184112698}
-  - {fileID: 780808877}
+  - {fileID: 1225736057}
   - {fileID: 1554213319}
   - {fileID: 867869245}
   - {fileID: 1781198633}
@@ -229,6 +230,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &60473486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60473481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb19c0e7745bff24f846415e81808cb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playButton: {fileID: 1554213319}
 --- !u!1 &129096976
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,8 +762,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.8
-  m_fontSizeBase: 44.8
+  m_fontSize: 38.7
+  m_fontSizeBase: 38.7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1546,6 +1560,7 @@ GameObject:
   - component: {fileID: 780808877}
   - component: {fileID: 780808879}
   - component: {fileID: 780808878}
+  - component: {fileID: 780808880}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1560,18 +1575,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780808876}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1354016036}
-  m_Father: {fileID: 60473485}
-  m_RootOrder: 2
+  m_Children: []
+  m_Father: {fileID: 1225736057}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -658.01, y: -166.04}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &780808878
@@ -1612,6 +1626,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780808876}
   m_CullTransparentMesh: 1
+--- !u!95 &780808880
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780808876}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9651c919cc2b534fa8e51595d5d936c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,8 +1732,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -278}
-  m_SizeDelta: {x: 315.74, y: 107.6}
+  m_AnchoredPosition: {x: 0, y: -290.7}
+  m_SizeDelta: {x: 332.87, y: 111.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &867869246
 MonoBehaviour:
@@ -2239,7 +2273,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1181835261
 Animator:
-  serializedVersion: 5
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2256,8 +2290,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1184112697
 GameObject:
   m_ObjectHideFlags: 0
@@ -2291,7 +2324,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 60473485}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.884946}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.6577724}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 273.15}
@@ -2487,6 +2520,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217131428}
   m_CullTransparentMesh: 1
+--- !u!1 &1225736056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1225736057}
+  - component: {fileID: 1225736058}
+  m_Layer: 5
+  m_Name: Office Guy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1225736057
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225736056}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1354016036}
+  - {fileID: 780808877}
+  m_Father: {fileID: 60473485}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -658.01, y: -166.03998}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1225736058
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225736056}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 07fe51a81ebd16f488cd969305f3ebfd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1303277082
 GameObject:
   m_ObjectHideFlags: 0
@@ -7463,7 +7555,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 780808877}
+  m_Father: {fileID: 1225736057}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -7538,7 +7630,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 74eb959fad284ed45b651f1ec3177603, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -7675,7 +7767,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -111}
-  m_SizeDelta: {x: 315.74, y: 107.6}
+  m_SizeDelta: {x: 332.87, y: 111.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1554213320
 MonoBehaviour:
@@ -8319,8 +8411,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "PROGRAMMING\n\tTomasz Piasecki\n\nDESIGN & GRAPHICS\n\tTomasz Piasecki\n\nHUMAN
-    & FIRE GRAPHICS\n\tAndrzej Brol\n\nMUSIC\n\tjhaeka (itch.io)"
+  m_text: "PROGRAMMING\n\tTomasz Piasecki\n\nDESIGN & GRAPHICS\n\tTomasz Piasecki\n\nOFFICE
+    GUY & FIRE\n\tAndrzej Brol\n\nMUSIC\n\tjhaeka (itch.io)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6da51ca856271044ba2d1ddb6950592b, type: 2}
   m_sharedMaterial: {fileID: -8963331468900830853, guid: 6da51ca856271044ba2d1ddb6950592b,

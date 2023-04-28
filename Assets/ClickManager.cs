@@ -13,6 +13,8 @@ public class ClickManager : MonoBehaviour
     public LayerMask humanLayer;
     public LayerMask placeLayer;
 
+    [SerializeField] GameObject vfx_wrongRoom;
+
     private Human heldHuman = null;
     private Vector3 initialHumanPos;
     private MoveState initialMoveState;
@@ -75,7 +77,16 @@ public class ClickManager : MonoBehaviour
                 }
                 else
                 {
-                    ResetHumanToInitialPos();
+                    if ((heldHuman.currentHumanState == HumanState.OnFire && targetRoom.roomType == FunctionalSpace.RoomType.Nursery) 
+                        || (heldHuman.currentHumanState == HumanState.Fainted && targetRoom.roomType == FunctionalSpace.RoomType.SwimPool))
+                    {
+                        Destroy(Instantiate(vfx_wrongRoom, heldHuman.transform.position, Quaternion.identity), 2);
+                        heldHuman.Kill();
+                    }
+                    else
+                    {
+                        ResetHumanToInitialPos();
+                    }
                 }
             }
             else

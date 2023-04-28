@@ -24,6 +24,7 @@ public class MoneyManager : MonoBehaviour
     [SerializeField] GameObject notEnoughMoneyForHire;
 
     [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] TextMeshProUGUI scoreText;
 
     [SerializeField] float spawnHumanFrequency;
     [SerializeField] GameObject canvasGameover;
@@ -35,6 +36,8 @@ public class MoneyManager : MonoBehaviour
     private float startTime;
     public bool gameInProgress = true;
 
+    int score = 0;
+
     public void Awake()
     {
         instance = this;
@@ -42,6 +45,7 @@ public class MoneyManager : MonoBehaviour
 
     void Start()
     {
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         startTime = Time.time;  // save the start timeS
         StartCoroutine(HumanSpawningRoutine());
     }
@@ -74,9 +78,11 @@ public class MoneyManager : MonoBehaviour
 
     public void AddCoin()
     {
-        coins++;
-        moneyText.text = $"{coins}";
-       // moneyText.transform.DOPunchScale(new Vector3(1, 1.1f, 1), 0.1f);
+        score++;
+        scoreText.text = $"Your score: {score}";
+        scoreText.transform.DOKill();
+        scoreText.transform.localScale = Vector3.one;
+        scoreText.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 10);
     }
 
     public void IncreasePeople()
@@ -89,8 +95,9 @@ public class MoneyManager : MonoBehaviour
         people--;
         deaths++;
         deathsText.text = $"{deaths}/10";
-        deathsText.transform.localScale = Vector3.one;
-        deathsText.transform.parent.DOPunchScale(Vector3.one * 1.03f, 0.42f);
+        deathsText.transform.parent.DOKill();
+        deathsText.transform.parent.localScale = Vector3.one;
+        deathsText.transform.parent.DOPunchScale(Vector3.one * 1.02f, 0.3f, 5);
 
         if (deaths >= 10)
         {

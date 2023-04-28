@@ -36,11 +36,12 @@ public class TempManager : MonoBehaviour
         volume.profile.TryGet(out bloom);
     }
 
+    public float a = 0;
     // Update is called once per frame
     void Update()
     {
         temp += tempChangeSpeed * Time.deltaTime;
-        float a = temp / maxTemp;
+        a = temp / maxTemp;
         tempSlider.value = a;
         Camera.main.backgroundColor = Color.Lerp(camColor1, camColor2, a);
         bloom.intensity.Override(Mathf.Lerp(0.35f, 2f, a));

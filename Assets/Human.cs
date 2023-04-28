@@ -59,10 +59,12 @@ public class Human : MonoBehaviour
 
     IEnumerator MoneyMakingRoutine()
     {
-        yield return new WaitForSeconds(UnityEngine.Random.Range(0, 2));
+        float randomInitialDelay = UnityEngine.Random.Range(0, moneyFrequency);
+        Debug.Log(randomInitialDelay);
+        yield return new WaitForSeconds(randomInitialDelay);
         while (true)
         {
-            yield return new WaitForSeconds(moneyFrequency);
+            yield return new WaitForSeconds(Mathf.Lerp(moneyFrequency, moneyFrequency/4, TempManager.instance.a));
 
             if (currentHumanState == HumanState.Normal && currentMoveState == MoveState.Walking)
             {
@@ -208,9 +210,14 @@ public class Human : MonoBehaviour
 
         if (hp == 0)
         {
-            BeforeDestroy();
-            Destroy(gameObject);
+            Kill();
         }
+    }
+
+    public void Kill()
+    {
+        BeforeDestroy();
+        Destroy(gameObject);
     }
 
     private void HandleTimeToDelayUpdate()
