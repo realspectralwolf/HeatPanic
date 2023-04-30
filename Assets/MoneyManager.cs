@@ -32,11 +32,15 @@ public class MoneyManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI gameOverHighscoreText;
     [SerializeField] TextMeshProUGUI gameOverTimerText;
     [SerializeField] GameObject gameOverNewHighscore;
+    [SerializeField] AudioSource music;
+    [SerializeField] CameraShake camShake;
 
     private float startTime;
     public bool gameInProgress = true;
 
     int score = 0;
+
+    public static System.Action OnGameEnded;
 
     public void Awake()
     {
@@ -48,6 +52,7 @@ public class MoneyManager : MonoBehaviour
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         startTime = Time.time;  // save the start timeS
         StartCoroutine(HumanSpawningRoutine());
+        UpdateCoinsUI();
     }
 
     IEnumerator HumanSpawningRoutine()
@@ -76,10 +81,15 @@ public class MoneyManager : MonoBehaviour
         return timeString;
     }
 
+    private void UpdateCoinsUI()
+    {
+        scoreText.text = $"Money Earned: {score}$";
+    }
+
     public void AddCoin()
     {
         score++;
-        scoreText.text = $"Your score: {score}";
+        UpdateCoinsUI();
         scoreText.transform.DOKill();
         scoreText.transform.localScale = Vector3.one;
         scoreText.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 10);
@@ -97,29 +107,31 @@ public class MoneyManager : MonoBehaviour
         deathsText.text = $"{deaths}/10";
         deathsText.transform.parent.DOKill();
         deathsText.transform.parent.localScale = Vector3.one;
-        deathsText.transform.parent.DOPunchScale(Vector3.one * 1.02f, 0.3f, 5);
+        deathsText.transform.parent.DOPunchScale(Vector3.one * 1.032f, 0.3f, 5);
+        camShake.Shake();
 
-        if (deaths >= 10)
+        AudioMgr.instance.PlayAudioClip("death");
+
+        if (deaths >= 10 && gameInProgress)
         {
             Debug.Log("Game Over");
             gameInProgress = false;
             canvasGameover.SetActive(true);
             string currentTimeString = GetTimeString();
-            gameOverTimerText.text = currentTimeString; 
+            gameOverTimerText.text = $"{score}$";
 
+            int highscore = PlayerPrefs.GetInt("highscoreINT", 0);
+            gameOverHighscoreText.text = $"Highscore: {highscore}$";
 
-            string highscoreString = PlayerPrefs.GetString("highscore", "00:00");
-            gameOverHighscoreText.text = $"Highscore {highscoreString}";
-
-            TimeSpan timeSpan = TimeSpan.Parse(highscoreString);
-            int secondsHighscore = (int)timeSpan.TotalSeconds;
-            int secondsCurrent = (int)TimeSpan.Parse(currentTimeString).TotalSeconds;
-
-            if (secondsCurrent > secondsHighscore)
+            if (score > highscore)
             {
                 gameOverNewHighscore.SetActive(true);
-                PlayerPrefs.SetString("highscore", currentTimeString);
+                PlayerPrefs.SetInt("highscoreINT", score);
             }
+
+            OnGameEnded?.Invoke();
+            AudioMgr.instance.PlayAudioClip("gameover");
+            music.Stop();
         }
     }
 

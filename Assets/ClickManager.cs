@@ -15,9 +15,13 @@ public class ClickManager : MonoBehaviour
 
     [SerializeField] GameObject vfx_wrongRoom;
 
-    private Human heldHuman = null;
+    public Human heldHuman = null;
     private Vector3 initialHumanPos;
     private MoveState initialMoveState;
+
+    public bool isMouseOverHuman = false;
+
+    public static System.Action RoomFull;
 
     public static ClickManager instance;
 
@@ -38,19 +42,26 @@ public class ClickManager : MonoBehaviour
 
     private void Update()
     {
+        if (!MoneyManager.instance.gameInProgress) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        isMouseOverHuman = Physics.Raycast(ray, out hit, Mathf.Infinity, humanLayer);
+
         if (Input.GetMouseButtonDown(0))
         {
             if (!MoneyManager.instance.gameInProgress) return;
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, humanLayer))
+            if (isMouseOverHuman)
             {
                 heldHuman = hit.collider.transform.parent.parent.gameObject.GetComponent<Human>();
                 initialHumanPos = heldHuman.transform.position;
                 initialMoveState = heldHuman.currentMoveState;
                 heldHuman.EnteredDrag();
+            }
+            else
+            {
+                CursorUI.instance.SpawnClickEffect();
             }
         }
         
@@ -61,16 +72,21 @@ public class ClickManager : MonoBehaviour
             if (heldHuman == null)
                 return;
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            RaycastHit hit2;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, placeLayer))
+            if (Physics.Raycast(ray, out hit2, Mathf.Infinity, placeLayer))
             {
-                var targetRoom = hit.collider.gameObject.GetComponent<FunctionalSpace>();
+                var targetRoom = hit2.collider.gameObject.GetComponent<FunctionalSpace>();
                 bool cond1 = targetRoom.roomType == FunctionalSpace.RoomType.SwimPool && heldHuman.currentHumanState == HumanState.OnFire;
                 bool cond2 = targetRoom.roomType == FunctionalSpace.RoomType.Nursery && heldHuman.currentHumanState == HumanState.Fainted;
                 bool cond3 = targetRoom.roomType == FunctionalSpace.RoomType.WaitingRoom && (heldHuman.currentHumanState == HumanState.Fainted || heldHuman.currentHumanState == HumanState.OnFire);
-                bool cond4 = targetRoom.roomType == FunctionalSpace.RoomType.WalkFloor;
+                bool cond4 = targetRoom.roomType == FunctionalSpace.RoomType.WalkFloor && heldHuman.currentHumanState == HumanState.Normal;
+
+                if (!targetRoom.HasFreeSpace())
+                {
+                    RoomFull?.Invoke();
+                }
+
                 if (targetRoom.HasFreeSpace() && (cond1 || cond2 || cond3 || cond4))
                 {
                     heldHuman.DroppedOn(targetRoom);
@@ -80,7 +96,7 @@ public class ClickManager : MonoBehaviour
                     if ((heldHuman.currentHumanState == HumanState.OnFire && targetRoom.roomType == FunctionalSpace.RoomType.Nursery) 
                         || (heldHuman.currentHumanState == HumanState.Fainted && targetRoom.roomType == FunctionalSpace.RoomType.SwimPool))
                     {
-                        Destroy(Instantiate(vfx_wrongRoom, heldHuman.transform.position, Quaternion.identity), 2);
+                        Destroy(Instantiate(vfx_wrongRoom, heldHuman.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity), 2);
                         heldHuman.Kill();
                     }
                     else

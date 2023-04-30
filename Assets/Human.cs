@@ -41,6 +41,8 @@ public class Human : MonoBehaviour
     public Transform spritesHolderTransform;
     public GameObject poofEffectPrefab;
 
+    public static System.Action<FunctionalSpace> OnDroppedOn;
+
     public enum MoveState
     {
         Walking,
@@ -64,7 +66,7 @@ public class Human : MonoBehaviour
         yield return new WaitForSeconds(randomInitialDelay);
         while (true)
         {
-            yield return new WaitForSeconds(Mathf.Lerp(moneyFrequency, moneyFrequency/4, TempManager.instance.a));
+            yield return new WaitForSeconds(Mathf.Lerp(moneyFrequency, moneyFrequency/6, TempManager.instance.a));
 
             if (currentHumanState == HumanState.Normal && currentMoveState == MoveState.Walking)
             {
@@ -83,6 +85,21 @@ public class Human : MonoBehaviour
         if (MoneyManager.instance == null) return;
 
         MoneyManager.instance.IncreasePeople();
+    }
+
+    private void OnEnable()
+    {
+        MoneyManager.OnGameEnded += HandleGameEnd;
+    }
+
+    private void OnDisable()
+    {
+        MoneyManager.OnGameEnded -= HandleGameEnd;
+    }
+
+    void HandleGameEnd()
+    {
+        StopAllCoroutines();
     }
 
     private void ResetEventDelay()
@@ -114,7 +131,7 @@ public class Human : MonoBehaviour
             this.currentPlace.UpdateText();
             this.currentPlace = newPlace;
         }
-        
+
 
         transform.position = newPlace.GetHumanPos(transform.position);
 
@@ -137,6 +154,7 @@ public class Human : MonoBehaviour
             {
                 SetHumanStateTo(HumanState.Normal);
             }
+            AudioMgr.instance.PlayAudioClip("coffe");
         }
 
         if (newPlace.roomType == FunctionalSpace.RoomType.SwimPool)
@@ -146,7 +164,10 @@ public class Human : MonoBehaviour
             {
                 SetHumanStateTo(HumanState.Normal);
             }
+            AudioMgr.instance.PlayAudioClip("pool");
         }
+
+        OnDroppedOn?.Invoke(newPlace);
     }
 
     private void Update()
@@ -199,6 +220,7 @@ public class Human : MonoBehaviour
         {
             if (hp == maxHp)
             {
+                AudioMgr.instance.PlayAudioClip("regenerated");
                 ClickManager.instance.SendBackToRandomFloor(this);
                 return;
             }
@@ -230,11 +252,13 @@ public class Human : MonoBehaviour
             {
                 SetMoveStateTo(MoveState.Idle);
                 SetHumanStateTo(HumanState.OnFire);
+                AudioMgr.instance.PlayAudioClip("fire");
             }
             else
             {
                 SetMoveStateTo(MoveState.Idle);
                 SetHumanStateTo(HumanState.Fainted);
+                AudioMgr.instance.PlayAudioClip("fall");
             }
         }
     }
