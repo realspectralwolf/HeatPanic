@@ -83,7 +83,7 @@ public class MoneyManager : MonoBehaviour
 
     private void UpdateCoinsUI()
     {
-        scoreText.text = $"Money Earned: {score}$";
+        scoreText.text = $"Money Earned: {score}$"; 
     }
 
     public void AddCoin()

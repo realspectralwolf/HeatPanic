@@ -22,6 +22,11 @@ public class SceneMgr : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
+    public void LoadTutorialScene()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
+
     public void QuitGame()
     {
         Application.Quit();

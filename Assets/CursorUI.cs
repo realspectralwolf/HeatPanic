@@ -41,14 +41,17 @@ public class CursorUI : MonoBehaviour
             transform.localScale = Vector3.one * 1f;
         }
 
-        if (ClickManager.instance.isMouseOverHuman)
+        if (ClickManager.instance != null)
         {
-            newCursor = cursorHover;
-        }
+            if (ClickManager.instance.isMouseOverHuman)
+            {
+                newCursor = cursorHover;
+            }
 
-        if (ClickManager.instance.heldHuman != null)
-        {
-            newCursor = cursorGrab;
+            if (ClickManager.instance.heldHuman != null)
+            {
+                newCursor = cursorGrab;
+            }
         }
 
         SetCursorActive(newCursor);

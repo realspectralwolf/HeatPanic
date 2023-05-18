@@ -25,6 +25,9 @@ public class ClickManager : MonoBehaviour
 
     public static ClickManager instance;
 
+    public System.Action PickedUpHuman;
+    public System.Action CanceledHumanMove;
+
     public void Awake()
     {
         instance = this;
@@ -42,7 +45,14 @@ public class ClickManager : MonoBehaviour
 
     private void Update()
     {
-        if (!MoneyManager.instance.gameInProgress) return;
+        bool isInputDisabled;
+
+        if (MoneyManager.instance == null)
+            isInputDisabled = false;
+        else
+            isInputDisabled = !MoneyManager.instance.gameInProgress;
+
+        if (isInputDisabled) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -50,14 +60,13 @@ public class ClickManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (!MoneyManager.instance.gameInProgress) return;
-
             if (isMouseOverHuman)
             {
                 heldHuman = hit.collider.transform.parent.parent.gameObject.GetComponent<Human>();
                 initialHumanPos = heldHuman.transform.position;
                 initialMoveState = heldHuman.currentMoveState;
                 heldHuman.EnteredDrag();
+                PickedUpHuman?.Invoke();
             }
             else
             {
@@ -67,8 +76,6 @@ public class ClickManager : MonoBehaviour
         
         if (Input.GetMouseButtonUp(0))
         {
-            if (!MoneyManager.instance.gameInProgress) return;
-
             if (heldHuman == null)
                 return;
 
@@ -93,8 +100,9 @@ public class ClickManager : MonoBehaviour
                 }
                 else
                 {
-                    if ((heldHuman.currentHumanState == HumanState.OnFire && targetRoom.roomType == FunctionalSpace.RoomType.Nursery) 
+                    if (((heldHuman.currentHumanState == HumanState.OnFire && targetRoom.roomType == FunctionalSpace.RoomType.Nursery) 
                         || (heldHuman.currentHumanState == HumanState.Fainted && targetRoom.roomType == FunctionalSpace.RoomType.SwimPool))
+                        && !heldHuman.isTutorialOnly)
                     {
                         Destroy(Instantiate(vfx_wrongRoom, heldHuman.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity), 2);
                         heldHuman.Kill();
@@ -102,12 +110,14 @@ public class ClickManager : MonoBehaviour
                     else
                     {
                         ResetHumanToInitialPos();
+                        CanceledHumanMove?.Invoke();
                     }
                 }
             }
             else
             {
                 ResetHumanToInitialPos();
+                CanceledHumanMove?.Invoke();
             }
             
 
@@ -116,8 +126,6 @@ public class ClickManager : MonoBehaviour
 
         if (heldHuman != null)
         {
-            if (!MoneyManager.instance.gameInProgress) return;
-
             Vector3 mousePosScreen = Input.mousePosition;
             Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(mousePosScreen);
             mousePosWorld.z = 0;

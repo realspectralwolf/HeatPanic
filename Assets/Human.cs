@@ -41,7 +41,12 @@ public class Human : MonoBehaviour
     public Transform spritesHolderTransform;
     public GameObject poofEffectPrefab;
 
+    public bool isTutorialOnly = false;
+    public List<int> forcedStateQueue = new();
+
     public static System.Action<FunctionalSpace> OnDroppedOn;
+    public System.Action OnOverheatedSymptom;
+    public System.Action OnRegenerated;
 
     public enum MoveState
     {
@@ -70,7 +75,10 @@ public class Human : MonoBehaviour
 
             if (currentHumanState == HumanState.Normal && currentMoveState == MoveState.Walking)
             {
-                MoneyManager.instance.AddCoin();
+                if (!MoneyManager.instance.gameInProgress) yield break;
+
+                if (MoneyManager.instance != null)
+                    MoneyManager.instance.AddCoin();
                 Destroy(Instantiate(OnePlusEffectPrefab, transform.position, Quaternion.identity), 1.5f);
             }
         }
@@ -82,8 +90,8 @@ public class Human : MonoBehaviour
         DroppedOn(currentPlace);
         ResetEventDelay();
         StartCoroutine(MoneyMakingRoutine());
-        if (MoneyManager.instance == null) return;
 
+        if (MoneyManager.instance == null) return;
         MoneyManager.instance.IncreasePeople();
     }
 
@@ -172,8 +180,10 @@ public class Human : MonoBehaviour
 
     private void Update()
     {
-        if (MoneyManager.instance == null) return;
-        if (!MoneyManager.instance.gameInProgress) return;
+        if (MoneyManager.instance != null)
+        {
+            if (!MoneyManager.instance.gameInProgress) return;
+        }
 
         if (currentMoveState == MoveState.Walking)
         {
@@ -204,7 +214,10 @@ public class Human : MonoBehaviour
             {
                 return;
             }
-            hp = Mathf.Clamp(hp - hpfallspeed / 4.5f * Time.deltaTime, 0, maxHp);
+            if (!isTutorialOnly)
+            {
+                hp = Mathf.Clamp(hp - hpfallspeed / 4.5f * Time.deltaTime, 0, maxHp);
+            }
             UpdateHP();
         }
         else if (currentHumanState == HumanState.OnFire || currentHumanState == HumanState.Fainted)
@@ -221,6 +234,7 @@ public class Human : MonoBehaviour
             if (hp == maxHp)
             {
                 AudioMgr.instance.PlayAudioClip("regenerated");
+                OnRegenerated?.Invoke();
                 ClickManager.instance.SendBackToRandomFloor(this);
                 return;
             }
@@ -248,7 +262,15 @@ public class Human : MonoBehaviour
         if(timerToEvent >= eventDelay)
         {
             ResetEventDelay();
-            if (UnityEngine.Random.Range(0, 2) == 1)
+            int newStateID = UnityEngine.Random.Range(0, 2);
+
+            if (forcedStateQueue.Count > 0)
+            {
+                newStateID = forcedStateQueue[0];
+                forcedStateQueue.RemoveAt(0);
+            }
+
+            if (newStateID == 1)
             {
                 SetMoveStateTo(MoveState.Idle);
                 SetHumanStateTo(HumanState.OnFire);
@@ -259,6 +281,14 @@ public class Human : MonoBehaviour
                 SetMoveStateTo(MoveState.Idle);
                 SetHumanStateTo(HumanState.Fainted);
                 AudioMgr.instance.PlayAudioClip("fall");
+            }
+
+            OnOverheatedSymptom?.Invoke();
+
+            if (isTutorialOnly)
+            {
+                hp = 40;
+                UpdateHP();
             }
         }
     }
@@ -341,7 +371,9 @@ public class Human : MonoBehaviour
 
     private void BeforeDestroy()
     {
-        MoneyManager.instance.DecreasePeople();
+        if (MoneyManager.instance != null)
+            MoneyManager.instance.DecreasePeople();
+
         if (currentPlace != null)
         {
             currentPlace.UpdateText();
