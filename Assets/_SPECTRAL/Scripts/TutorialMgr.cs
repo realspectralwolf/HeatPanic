@@ -5,7 +5,6 @@ using UnityEngine;
 public class TutorialMgr : MonoBehaviour
 {
     [SerializeField] Human tutorialHuman;
-    [SerializeField] DragDropManager clickMgr;
     [SerializeField] float finalDelay;
     [SerializeField] GameObject[] uiStepPanels;
 
@@ -15,25 +14,12 @@ public class TutorialMgr : MonoBehaviour
     {
         tutorialProgress = 0;
         uiStepPanels[0].SetActive(true);
-    }
 
-    private void OnEnable()
-    {
-        tutorialHuman.OnOverheatedSymptom += OnHumanOverheated;
         Human.OnDroppedOn += HumanDroppedToRoomHandler;
-        clickMgr.PickedUpHuman += PickedUpHumanHandler;
-        clickMgr.CanceledHumanMove += DroppedHumanHandler;
+        DragDropManager.Instance.PickedUpHuman += PickedUpHumanHandler;
+        DragDropManager.Instance.CanceledHumanMove += DroppedHumanHandler;
         tutorialHuman.OnRegenerated += HumanRegeratedHandler;
-
-    }
-
-    private void OnDisable()
-    {
-        tutorialHuman.OnOverheatedSymptom -= OnHumanOverheated;
-        Human.OnDroppedOn -= HumanDroppedToRoomHandler;
-        clickMgr.PickedUpHuman -= PickedUpHumanHandler;
-        clickMgr.CanceledHumanMove -= DroppedHumanHandler;
-        tutorialHuman.OnRegenerated -= HumanRegeratedHandler;
+        tutorialHuman.OnOverheatedSymptom += OnHumanOverheated;
     }
 
     private void OnHumanOverheated()
@@ -124,6 +110,6 @@ public class TutorialMgr : MonoBehaviour
     IEnumerator TutorialCompletedRoutine()
     {
         yield return new WaitForSeconds(finalDelay);
-        SceneMgr.instance.LoadGameplayScene();
+        SceneChanger.Instance.LoadGameplayScene();
     }
 }

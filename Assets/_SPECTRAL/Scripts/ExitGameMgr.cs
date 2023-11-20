@@ -40,7 +40,7 @@ public class ExitGameMgr : MonoBehaviour
             text_timeLeft.text = (timeToHold - currentTimeHeldDown).ToString("0.00") + "s";
             if (currentTimeHeldDown == timeToHold)
             {
-                SceneMgr.instance.LoadMenuScene();
+                SceneChanger.Instance.LoadMenuScene();
             }
         }
     }

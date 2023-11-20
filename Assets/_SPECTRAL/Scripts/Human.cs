@@ -5,52 +5,52 @@ using UnityEngine.UI;
 
 public class Human : MonoBehaviour
 {
+    [SerializeField] private Slider hpBar;
+    [SerializeField] private Transform spritesHolderTransform;
+
     public static System.Action OnDied;
     public static System.Action<Location> OnDroppedOn;
     public System.Action OnOverheatedSymptom;
     public System.Action OnRegenerated;
 
-    public HumanData humanData;
-    public GameObject currentVisual;
-    public bool isDragged = false;
-    public float health = 100;
+    public HumanData HumanData;
+    public float Health = 100;
 
-    public HumanState currentState;
-    public HumanState initialStateOverride;
-    public Location currentLocation;
+    public GameObject CurrentVisual;
+    public HumanState CurrentState;
+    public HumanState InitialStateOverride;
+    public Location CurrentLocation;
 
-    public Slider hpBar;
+    public int PreviousSymptomID = 0;
 
-    public Transform spritesHolderTransform;
-
-    public bool isTutorialOnly = false;
-    [HideInInspector]public int previousSymptomID = 0;
+    public bool IsDragged = false;
+    public bool IsTutorialOnly = false;
 
     private void Start()
     {
-        if (isTutorialOnly)
+        if (IsTutorialOnly)
         {
-            health = humanData.maxHp;
-            SetState(initialStateOverride);
+            Health = HumanData.maxHp;
+            SetState(InitialStateOverride);
         }
     }
 
     public void Init()
     {
-        health = humanData.maxHp;
+        Health = HumanData.maxHp;
     }
 
     private void Update()
     {
-        if (!isDragged)
+        if (!IsDragged)
         {
-            if (currentState != null)
-                currentState.FrameUpdate();
+            if (CurrentState != null)
+                CurrentState.FrameUpdate();
 
             HandleHpBarVisibility();
         } 
 
-        if (health == 0)
+        if (Health == 0)
         {
             Kill();
         }
@@ -58,7 +58,7 @@ public class Human : MonoBehaviour
 
     void HandleHpBarVisibility()
     {
-        if (health < humanData.maxHp)
+        if (Health < HumanData.maxHp)
         {
             hpBar.gameObject.SetActive(true);
         }
@@ -70,56 +70,62 @@ public class Human : MonoBehaviour
 
     public void SetState(HumanState newState)
     {
-        if (currentState != null)
-            currentState.Exit();
+        if (CurrentState != null)
+            CurrentState.Exit();
 
-        currentState = Instantiate(newState);
-        currentState.Enter(this);
+        CurrentState = Instantiate(newState);
+        CurrentState.Enter(this);
     }
 
     public void PickedUp()
     {
-        isDragged = true;
+        IsDragged = true;
     }
 
     public void DroppedOn(Location newLocation)
     {
         if (newLocation == null) return;
 
-        if (currentLocation != null)
-            currentLocation.RemoveHuman(this);
+        if (CurrentLocation != null)
+            CurrentLocation.RemoveHuman(this);
 
         transform.parent = newLocation.transform;
-        currentLocation = newLocation;
+        CurrentLocation = newLocation;
         newLocation.AddHuman(this);
 
-        isDragged = false;
+        IsDragged = false;
         OnDroppedOn?.Invoke(newLocation);
     }
 
     public void Kill()
     {
-        if (currentLocation != null)
+        if (CurrentLocation != null)
         {
-            currentLocation.RemoveHuman(this);
+            CurrentLocation.RemoveHuman(this);
         }
         Destroy(gameObject);
-        Destroy(Instantiate(humanData.poofEffectPrefab, transform.position, Quaternion.identity), 1.5f);
+        Destroy(Instantiate(HumanData.poofEffectPrefab, transform.position, Quaternion.identity), 1.5f);
         OnDied?.Invoke();
-        AudioMgr.instance.PlayAudioClip("death");
+        AudioManager.Instance.PlayAudioClip("death");
     }
 
     public void SetVisual(GameObject spriteObject)
     {
-        if (currentVisual != null)
-            Destroy(currentVisual);
+        if (CurrentVisual != null)
+            Destroy(CurrentVisual);
 
-        currentVisual = Instantiate(spriteObject, transform.position, Quaternion.identity, spritesHolderTransform);
+        CurrentVisual = Instantiate(spriteObject, transform.position, Quaternion.identity, spritesHolderTransform);
     }
 
     public void SetHealth(float newHealth)
     {
-        health = newHealth;
-        hpBar.value = health / humanData.maxHp;
+        Health = newHealth;
+        hpBar.value = Health / HumanData.maxHp;
+    }
+
+    public void SetFlipX(bool flipState)
+    {
+        float x = flipState ? -1f : 1f;
+        spritesHolderTransform.localScale = new Vector3(x, 1, 1);
     }
 }

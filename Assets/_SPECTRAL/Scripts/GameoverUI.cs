@@ -44,22 +44,29 @@ public class GameoverUI : MonoBehaviour
         for (int i = 0; i < objects.Length; i++)
         {
             var obj = objects[i];
-            obj.LeanScale(initialScales[i], animSpeed);
-            yield return new WaitForSeconds(delayBetweenObjs);
             if (mainButton == obj)
             {
-                mainButton.LeanScale(Vector3.one * 1.08f, 0.86f).setLoopCount(-1).setLoopPingPong();
+                obj.LeanScale(initialScales[i], animSpeed).setOnComplete( () => 
+                {
+                    mainButton.LeanScale(Vector3.one * 0.8f, 0.6f).setLoopCount(-1).setLoopPingPong().setEaseInOutSine();
+                });
+                
             }
+            else
+            {
+                obj.LeanScale(initialScales[i], animSpeed);
+            }
+            yield return new WaitForSeconds(delayBetweenObjs);
         }
     }
 
     public void OnClickAgainButton()
     {
-        SceneMgr.instance.LoadGameplayScene();
+        SceneChanger.Instance.LoadGameplayScene();
     }
 
     public void OnClickMenuButton()
     {
-        SceneMgr.instance.LoadMenuScene();
+        SceneChanger.Instance.LoadMenuScene();
     }
 }

@@ -14,12 +14,12 @@ public class DeathsText : MonoBehaviour
 
     private void OnEnable()
     {
-        ResourceManager.OnDeathsChanged += UpdateValue;
+        ResourceManager.OnDeathsChange += UpdateValue;
     }
 
     private void OnDisable()
     {
-        ResourceManager.OnDeathsChanged -= UpdateValue;
+        ResourceManager.OnDeathsChange -= UpdateValue;
     }
 
     private void UpdateValue(int newValue)
@@ -27,6 +27,6 @@ public class DeathsText : MonoBehaviour
         LeanTween.cancel(transform.gameObject);
         transform.localScale = Vector3.one;
         transform.LeanScale(Vector3.one * 0.1f, 0.3f).setEasePunch();
-        text.text = $"{newValue}/{DataMgr.Instance.GameData.humanDeathsLimit}";
+        text.text = $"{newValue}/{DataHolder.Instance.GameData.humanDeathsLimit}";
     }
 }

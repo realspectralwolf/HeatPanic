@@ -15,6 +15,6 @@ public class HumanStateSleep : HumanState
 
     public override void Exit()
     {
-        AudioMgr.instance.PlayAudioClip("regenerated");
+        AudioManager.Instance.PlayAudioClip("regenerated");
     }
 }

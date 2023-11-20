@@ -114,7 +114,8 @@ public class Location : MonoBehaviour
         SwimPool,
         Nursery,
         WaitingRoom,
-        WalkFloor
+        WalkFloor,
+        None
     }
 
     private void OnDrawGizmos()

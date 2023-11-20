@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public abstract class HumanState : ScriptableObject
 {
@@ -29,29 +28,29 @@ public static class HumanStateExtensions
 {
     public static void HandleHealthManipulations(Human human, Location.RoomType healingType)
     {
-        if (human.currentLocation.roomType == healingType)
+        if (human.CurrentLocation.roomType == healingType)
         {
-            var newHp = Mathf.Clamp(human.health + human.humanData.hpregspeed * Time.deltaTime, 0, human.humanData.maxHp);
+            var newHp = Mathf.Clamp(human.Health + human.HumanData.hpregspeed * Time.deltaTime, 0, human.HumanData.maxHp);
             human.SetHealth(newHp);
 
-            if (human.health == human.humanData.maxHp)
+            if (human.Health == human.HumanData.maxHp)
             {
                 human.OnRegenerated?.Invoke();
                 DragDropManager.Instance.SendBackToRandomFloor(human);
             }
         }
-        else if (human.currentLocation.roomType == Location.RoomType.WaitingRoom)
+        else if (human.CurrentLocation.roomType == Location.RoomType.WaitingRoom)
         {
-            var newHp = Mathf.Clamp(human.health - human.humanData.hpfallspeed / 2.5f * Time.deltaTime, 0, human.humanData.maxHp);
+            var newHp = Mathf.Clamp(human.Health - human.HumanData.hpfallspeed / 2.5f * Time.deltaTime, 0, human.HumanData.maxHp);
             human.SetHealth(newHp);
         }
-        else if (human.isTutorialOnly)
+        else if (human.IsTutorialOnly)
         {
             human.SetHealth(40);
         }
         else
         {
-            var newHp = Mathf.Clamp(human.health - human.humanData.hpfallspeed * Time.deltaTime, 0, human.humanData.maxHp);
+            var newHp = Mathf.Clamp(human.Health - human.HumanData.hpfallspeed * Time.deltaTime, 0, human.HumanData.maxHp);
             human.SetHealth(newHp);
         }
     }

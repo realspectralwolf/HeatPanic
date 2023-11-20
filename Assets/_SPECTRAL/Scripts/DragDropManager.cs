@@ -47,7 +47,7 @@ public class DragDropManager : MonoBehaviour
             {
                 heldHuman = hit.collider.transform.parent.parent.gameObject.GetComponent<Human>();
                 initialHumanPos = heldHuman.transform.position;
-                initialState = heldHuman.currentState;
+                initialState = heldHuman.CurrentState;
                 heldHuman.PickedUp();
                 PickedUpHuman?.Invoke();
             }
@@ -88,7 +88,7 @@ public class DragDropManager : MonoBehaviour
 
         var targetRoom = hit2.collider.gameObject.GetComponent<Location>();
 
-        if (targetRoom.DoesAcceptState(heldHuman.currentState))
+        if (targetRoom.DoesAcceptState(heldHuman.CurrentState))
         {
             if (targetRoom.HasFreeSpace())
             {
@@ -101,9 +101,9 @@ public class DragDropManager : MonoBehaviour
             }
         }
         
-        if (targetRoom.DoesInstaKillState(heldHuman.currentState))
+        if (targetRoom.DoesInstaKillState(heldHuman.CurrentState) && !humanToDrop.IsTutorialOnly)
         {
-            Destroy(Instantiate(DataMgr.Instance.GameData.vfx_wrongRoom, humanToDrop.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity), 2);
+            Destroy(Instantiate(DataHolder.Instance.GameData.vfx_wrongRoom, humanToDrop.transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity), 2);
             humanToDrop.Kill();
         }
 
@@ -125,8 +125,8 @@ public class DragDropManager : MonoBehaviour
         var targetFloor = availableFloors[Random.Range(0, availableFloors.Count)];
         newPos.y = targetFloor.transform.position.y;
         newPos.x = 2;
-        targetHuman.transform.LeanMove(newPos, 0.2f).setOnComplete(() => { targetHuman.SetState(targetHuman.humanData.walkState); }); // Set the easing function
+        targetHuman.transform.LeanMove(newPos, 0.2f).setOnComplete(() => { targetHuman.SetState(targetHuman.HumanData.walkState); }); // Set the easing function
         targetHuman.DroppedOn(targetFloor);
-        targetHuman.SetState(targetHuman.humanData.walkState);
+        targetHuman.SetState(targetHuman.HumanData.walkState);
     }
 }

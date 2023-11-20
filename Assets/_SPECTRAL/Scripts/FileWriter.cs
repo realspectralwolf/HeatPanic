@@ -5,7 +5,7 @@ public static class FileWriter
 {
     public static void WriteHighscoreToFile(int content)
     {
-        string path = Path.Combine(Application.dataPath, "highscore.txt");
+        string path = Path.Combine(Directory.GetCurrentDirectory(), "highscore.txt");
         // Use StreamWriter to write content to the file
         using (StreamWriter writer = new StreamWriter(path))
         {
@@ -18,7 +18,7 @@ public static class FileWriter
 
     public static int ReadHighscoreFromFile()
     {
-        string path = Path.Combine(Application.dataPath, "highscore.txt");
+        string path = Path.Combine(Directory.GetCurrentDirectory(), "highscore.txt");
         string content;
 
         if (!File.Exists(path))

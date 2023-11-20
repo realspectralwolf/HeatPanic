@@ -1,26 +1,19 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
-    public int money = 0;
-    public int deaths = 0;
-    public float temperature = 0;
+    public int Money = 0;
+    public int Deaths = 0;
+    public float Temperature = 0;
+    public bool IsGameInProgress = true;
+    public bool DoEnableSpawning = true;
 
-    public bool gameInProgress = true;
-    public bool enableSpawning = true;
-
-    public static System.Action OnGameEnded;
-    public static System.Action<int> OnMoneyChanged;
-    public static System.Action<int> OnDeathsChanged;
+    public static System.Action<int> OnMoneyChange;
+    public static System.Action<int> OnDeathsChange;
 
     public static ResourceManager Instance;
 
     private float timeLeftToSpawnHuman = 0;
-    private float startTime;
 
     public void Awake()
     {
@@ -30,7 +23,6 @@ public class ResourceManager : MonoBehaviour
     void Start()
     {
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
-        startTime = Time.time;
     }
 
     private void OnEnable()
@@ -40,64 +32,69 @@ public class ResourceManager : MonoBehaviour
 
     void Update()
     {
-        temperature += DataMgr.Instance.GameData.tempChangeSpeed * Time.deltaTime;
-        temperature = Mathf.Clamp(temperature, 0, DataMgr.Instance.GameData.maxTemp);
+        if (!IsGameInProgress) return;
+
+        Temperature += DataHolder.Instance.GameData.tempChangeSpeed * Time.deltaTime;
+        Temperature = Mathf.Clamp(Temperature, 0, DataHolder.Instance.GameData.maxTemp);
 
         HandleSpawningTick();
     }
 
     void HandleSpawningTick()
     {
-        if (!enableSpawning) return;
+        if (!DoEnableSpawning) return;
 
         timeLeftToSpawnHuman -= Time.deltaTime;
         if (timeLeftToSpawnHuman <= 0)
         {
             SpawnNewHuman();
-            timeLeftToSpawnHuman = DataMgr.Instance.GameData.howOftenSpawnHuman;
+            timeLeftToSpawnHuman = DataHolder.Instance.GameData.howOftenSpawnHuman;
         }
     }
 
     public void AddMoney()
     {
-        money++;
-        OnMoneyChanged?.Invoke(money);
+        if (!IsGameInProgress) return;
+
+        Money++;
+        OnMoneyChange?.Invoke(Money);
     }
 
     public void DecreasePeople()
     {
-        deaths++;
-        OnDeathsChanged?.Invoke(deaths);
+        if (!IsGameInProgress) return;
 
-        if (deaths >= DataMgr.Instance.GameData.humanDeathsLimit && gameInProgress)
+        Deaths++;
+        OnDeathsChange?.Invoke(Deaths);
+
+        if (Deaths >= DataHolder.Instance.GameData.humanDeathsLimit)
         {
-            gameInProgress = false;
+            IsGameInProgress = false;
             bool isNewRecord = false;
             int highscore = FileWriter.ReadHighscoreFromFile();
 
-            if (money > highscore)
+            if (Money > highscore)
             {
-                FileWriter.WriteHighscoreToFile(money);
+                FileWriter.WriteHighscoreToFile(Money);
                 isNewRecord = true;
             }
 
-            Instantiate(DataMgr.Instance.GameData.gameoverUI).Init(money, isNewRecord, highscore);
-
-            OnGameEnded?.Invoke();
-            AudioMgr.instance.PlayAudioClip("gameover");
-            AudioMgr.instance.StopMusic();
+            Instantiate(DataHolder.Instance.GameData.gameoverUI).Init(Money, isNewRecord, highscore);
+            AudioManager.Instance.PlayAudioClip("gameover");
+            AudioManager.Instance.StopMusic();
+            gameObject.SetActive(false);
         }
     }
 
     void SpawnNewHuman()
     {
-        var newHuman = Instantiate(DataMgr.Instance.GameData.humanPrefab);
+        var newHuman = Instantiate(DataHolder.Instance.GameData.humanPrefab);
         newHuman.Init();
         DragDropManager.Instance.SendBackToRandomFloor(newHuman);
     }
 
     public float GetNormalizedTemp()
     {
-        return temperature / DataMgr.Instance.GameData.maxTemp;
+        return Temperature / DataHolder.Instance.GameData.maxTemp;
     }
 }

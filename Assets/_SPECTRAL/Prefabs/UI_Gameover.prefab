@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7018311488997127294}
   - component: {fileID: 3328211206521026813}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Subtitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 2349805649435403166}
   - component: {fileID: 1740318264140587458}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1027,7 +1027,7 @@ GameObject:
   - component: {fileID: 6713796929773035236}
   - component: {fileID: 1511643888818743085}
   m_Layer: 5
-  m_Name: highscore text
+  m_Name: Highscore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1049,7 +1049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 258.2}
+  m_AnchoredPosition: {x: 0, y: 246}
   m_SizeDelta: {x: 515.8, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6713796929773035236
@@ -1144,7 +1144,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0.000061035156, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1162,7 +1162,7 @@ GameObject:
   - component: {fileID: 1470398339374129184}
   - component: {fileID: 8399683709925704396}
   m_Layer: 5
-  m_Name: Subtitle
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1297,7 +1297,7 @@ GameObject:
   - component: {fileID: 8094625287951846227}
   - component: {fileID: 2664433656000143050}
   m_Layer: 5
-  m_Name: New Highscore UI
+  m_Name: New Highscore!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

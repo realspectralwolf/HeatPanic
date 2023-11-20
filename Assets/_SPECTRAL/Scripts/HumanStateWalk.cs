@@ -10,16 +10,16 @@ public class HumanStateWalk : HumanState
     public override void Enter(Human humanOrigin)
     {
         base.Enter(humanOrigin);
-        timeToNextMoney = Random.Range(0, DataMgr.Instance.GameData.moneyMakingSpeed);
+        timeToNextMoney = Random.Range(0, DataHolder.Instance.GameData.moneyMakingSpeed);
         isWalkingRight = Random.Range(0, 2) == 1;
 
-        if (human.isTutorialOnly)
+        if (human.IsTutorialOnly)
         {
-            timeToNextSymptom = human.humanData.eventsDelayMin;
+            timeToNextSymptom = human.HumanData.eventsDelayMin;
         }
         else
         {
-            timeToNextSymptom = Random.Range(human.humanData.eventsDelayMin, human.humanData.eventsDelayMax);
+            timeToNextSymptom = Random.Range(human.HumanData.eventsDelayMin, human.HumanData.eventsDelayMax);
         }
         
     }
@@ -38,7 +38,7 @@ public class HumanStateWalk : HumanState
         {
             timeToNextMoney = CalculateTimeToNextMoney();
             ResourceManager.Instance.AddMoney();
-            Destroy(Instantiate(human.humanData.OnePlusEffectPrefab, human.transform.position, Quaternion.identity), 1.5f);
+            Destroy(Instantiate(human.HumanData.OnePlusEffectPrefab, human.transform.position, Quaternion.identity), 1.5f);
         }
     }
 
@@ -46,18 +46,18 @@ public class HumanStateWalk : HumanState
     {
         if (isWalkingRight)
         {
-            human.spritesHolderTransform.localScale = new Vector3(1, 1, 1);
-            human.transform.position += Vector3.right * human.humanData.walkSpeed * Time.deltaTime;
-            if (human.transform.position.x >= human.currentLocation.walkRange.max)
+            human.SetFlipX(false);
+            human.transform.position += Vector3.right * human.HumanData.walkSpeed * Time.deltaTime;
+            if (human.transform.position.x >= human.CurrentLocation.walkRange.max)
             {
                 isWalkingRight = !isWalkingRight;
             }
         }
         else
         {
-            human.spritesHolderTransform.localScale = new Vector3(-1, 1, 1);
-            human.transform.position -= Vector3.right * human.humanData.walkSpeed * Time.deltaTime;
-            if (human.transform.position.x <= human.currentLocation.walkRange.min)
+            human.SetFlipX(true);
+            human.transform.position -= Vector3.right * human.HumanData.walkSpeed * Time.deltaTime;
+            if (human.transform.position.x <= human.CurrentLocation.walkRange.min)
             {
                 isWalkingRight = !isWalkingRight;
             }
@@ -71,33 +71,33 @@ public class HumanStateWalk : HumanState
         {
             int newStateID = Random.Range(0, 2);
 
-            if (human.isTutorialOnly)
+            if (human.IsTutorialOnly)
             {
-                newStateID = human.previousSymptomID + 1;
+                newStateID = human.PreviousSymptomID + 1;
             }
 
             if (newStateID == 1)
             {
-                human.SetState(human.humanData.fireState);
+                human.SetState(human.HumanData.fireState);
             }
             else
             {
-                human.SetState(human.humanData.sleepState);
+                human.SetState(human.HumanData.sleepState);
             }
 
-            human.previousSymptomID = newStateID;
+            human.PreviousSymptomID = newStateID;
 
             human.OnOverheatedSymptom?.Invoke();
 
             float a = Mathf.Lerp(1, 4.5f, ResourceManager.Instance.GetNormalizedTemp());
-            timeToNextSymptom = Random.Range(human.humanData.eventsDelayMin, human.humanData.eventsDelayMax) / a;
+            timeToNextSymptom = Random.Range(human.HumanData.eventsDelayMin, human.HumanData.eventsDelayMax) / a;
         }
     }
 
     private float CalculateTimeToNextMoney()
     {
-        float moneyFreq = DataMgr.Instance.GameData.moneyMakingSpeed;
-        float value = !human.isTutorialOnly ? ResourceManager.Instance.GetNormalizedTemp() : 0;
+        float moneyFreq = DataHolder.Instance.GameData.moneyMakingSpeed;
+        float value = !human.IsTutorialOnly ? ResourceManager.Instance.GetNormalizedTemp() : 0;
         return Mathf.Lerp(moneyFreq, moneyFreq / 6, value);
     }
 

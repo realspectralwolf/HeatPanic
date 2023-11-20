@@ -14,12 +14,12 @@ public class MoneyText : MonoBehaviour
 
     private void OnEnable()
     {
-        ResourceManager.OnMoneyChanged += UpdateValue;
+        ResourceManager.OnMoneyChange += UpdateValue;
     }
 
     private void OnDisable()
     {
-        ResourceManager.OnMoneyChanged -= UpdateValue;
+        ResourceManager.OnMoneyChange -= UpdateValue;
     }
 
     private void UpdateValue(int newValue)

@@ -22,7 +22,7 @@ public class IdleDetector : MonoBehaviour
         if (timeSinceLastInput >= idleSeconds)
         {
             // Player has had no input for 1 minute, perform desired actions here
-            SceneMgr.instance.LoadMenuScene();
+            SceneChanger.Instance.LoadMenuScene();
         }
     }
 }

@@ -424,16 +424,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d630e5e306483af43b22988be32bfa76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  humanData: {fileID: 11400000, guid: ef8a217329818fe4d9ab6b1304b60a2e, type: 2}
-  currentVisual: {fileID: 5100279832089149843}
-  isDragged: 0
-  health: 100
-  currentState: {fileID: 0}
-  initialStateOverride: {fileID: 0}
-  currentLocation: {fileID: 0}
   hpBar: {fileID: 1179588896}
   spritesHolderTransform: {fileID: 5580804084791445908}
-  isTutorialOnly: 0
+  HumanData: {fileID: 11400000, guid: ef8a217329818fe4d9ab6b1304b60a2e, type: 2}
+  Health: 100
+  CurrentVisual: {fileID: 5100279832089149843}
+  CurrentState: {fileID: 0}
+  InitialStateOverride: {fileID: 0}
+  CurrentLocation: {fileID: 0}
+  PreviousSymptomID: 0
+  IsDragged: 0
+  IsTutorialOnly: 0
 --- !u!1 &5359814333474723133
 GameObject:
   m_ObjectHideFlags: 0

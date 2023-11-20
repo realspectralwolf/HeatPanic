@@ -2117,7 +2117,7 @@ GameObject:
   - component: {fileID: 1229451352}
   - component: {fileID: 1229451353}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: Scene Changer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2147,7 +2147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1229451351}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4ce19d5eb9f7664fbdaec74dc27bd1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 902f67b683d9af848a80b984dc4b47df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1330777087
@@ -2308,7 +2308,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1229451353}
-        m_TargetAssemblyTypeName: SceneMgr, Assembly-CSharp
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
         m_MethodName: LoadTutorialScene
         m_Mode: 1
         m_Arguments:

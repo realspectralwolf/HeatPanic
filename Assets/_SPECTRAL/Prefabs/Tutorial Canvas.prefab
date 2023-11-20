@@ -940,7 +940,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5. Wait for something to happen again
+  m_text: 5. Watch out for any more symptoms
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd541a646f079d2478c3e785aab798a0, type: 2}
   m_sharedMaterial: {fileID: -1288380264568953002, guid: cd541a646f079d2478c3e785aab798a0,
@@ -2252,7 +2252,7 @@ GameObject:
   - component: {fileID: 5931471330034033324}
   - component: {fileID: 1394894621454431992}
   - component: {fileID: 6804115721610905745}
-  - component: {fileID: 4259084682872044633}
+  - component: {fileID: 7017517467182890262}
   m_Layer: 5
   m_Name: Tutorial Canvas
   m_TagString: Untagged
@@ -2352,7 +2352,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4259084682872044633
+--- !u!114 &7017517467182890262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2365,7 +2365,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialHuman: {fileID: 0}
-  clickMgr: {fileID: 0}
   finalDelay: 3
   uiStepPanels:
   - {fileID: 2352929819948490225}
