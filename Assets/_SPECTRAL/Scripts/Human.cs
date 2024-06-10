@@ -23,8 +23,8 @@ public class Human : MonoBehaviour
 
     public int PreviousSymptomID = 0;
 
-    public bool IsDragged = false { get; private set; }
-    public bool IsTutorialOnly = false { get; private set; }
+    public bool IsDragged { get; private set; } = false;
+    public bool IsTutorialOnly { get; private set; } = false;
 
     private void Start()
     {
