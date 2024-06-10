@@ -14,7 +14,7 @@ public class Human : MonoBehaviour
     public System.Action OnRegenerated;
 
     public HumanData HumanData;
-    public float Health = 100;
+    public float Health = 100 { get; private set; }
 
     public GameObject CurrentVisual;
     public HumanState CurrentState;
@@ -23,8 +23,8 @@ public class Human : MonoBehaviour
 
     public int PreviousSymptomID = 0;
 
-    public bool IsDragged = false;
-    public bool IsTutorialOnly = false;
+    public bool IsDragged = false { get; private set; }
+    public bool IsTutorialOnly = false { get; private set; }
 
     private void Start()
     {
